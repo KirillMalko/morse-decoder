@@ -1,76 +1,80 @@
 const MORSE_TABLE = {
-    '.-':     'a',
-    '-...':   'b',
-    '-.-.':   'c',
-    '-..':    'd',
-    '.':      'e',
-    '..-.':   'f',
-    '--.':    'g',
-    '....':   'h',
-    '..':     'i',
-    '.---':   'j',
-    '-.-':    'k',
-    '.-..':   'l',
-    '--':     'm',
-    '-.':     'n',
-    '---':    'o',
-    '.--.':   'p',
-    '--.-':   'q',
-    '.-.':    'r',
-    '...':    's',
-    '-':      't',
-    '..-':    'u',
-    '...-':   'v',
-    '.--':    'w',
-    '-..-':   'x',
-    '-.--':   'y',
-    '--..':   'z',
-    '.----':  '1',
-    '..---':  '2',
-    '...--':  '3',
-    '....-':  '4',
-    '.....':  '5',
-    '-....':  '6',
-    '--...':  '7',
-    '---..':  '8',
-    '----.':  '9',
-    '-----':  '0',
-};
+    '.-': 'a',
+    '-...': 'b',
+    '-.-.': 'c',
+    '-..': 'd',
+    '.': 'e',
+    '..-.': 'f',
+    '--.': 'g',
+    '....': 'h',
+    '..': 'i',
+    '.---': 'j',
+    '-.-': 'k',
+    '.-..': 'l',
+    '--': 'm',
+    '-.': 'n',
+    '---': 'o',
+    '.--.': 'p',
+    '--.-': 'q',
+    '.-.': 'r',
+    '...': 's',
+    '-': 't',
+    '..-': 'u',
+    '...-': 'v',
+    '.--': 'w',
+    '-..-': 'x',
+    '-.--': 'y',
+    '--..': 'z',
+    '.----': '1',
+    '..---': '2',
+    '...--': '3',
+    '....-': '4',
+    '.....': '5',
+    '-....': '6',
+    '--...': '7',
+    '---..': '8',
+    '----.': '9',
+    '-----': '0',
+}
+
+const DIG_TABLE = {
+    11: '-',
+    10: '.',
+}
+
+const LETTER_BASE = 10;
+const MORSE_CODE_BASE = 2;
 
 function decode(exp) {
-    const symbolAmount = exp.length / letterBase
+    const symbolAmount = exp.length / LETTER_BASE;
 
-    let messageWasDecoded = []
+    let decodedMessages = [];
 
     for (let i = 0; i < symbolAmount; i++) {
-        let decodedLetter = ''
-        let encryptedLetter = exp.slice(i * letterBase, (i + 1) * letterBase)
-        decodedLetter = getLetter(encryptedLetter)
-        messageWasDecoded.push(decodedLetter)
+        let decodetoLetter = '';
+        let writedLetter = exp.slice(i * LETTER_BASE, (i + 1) * LETTER_BASE);
+        decodetoLetter = getLetter(writedLetter);
+        decodedMessages.push(decodetoLetter);
     }
 
-    return messageWasDecoded.join('')
+    return decodedMessages.join('');
 }
 
 function getLetter(exp) {
-    if (exp === '**********') {
-        return ' '
-    } else {
-        let letterCode = []
+    if (exp === '**********') return ' ';
+        else {
+        let codeLetter = [];
 
-        for (let i = 0; i < letterBase / MORSE_CODE_BASE; i++) {
-            let substr = exp.slice(i * MORSE_CODE_BASE, (i + 1) * MORSE_CODE_BASE)
+        for (let i = 0; i < LETTER_BASE / MORSE_CODE_BASE; i++) {
+            let substr = exp.slice(i * MORSE_CODE_BASE, (i + 1) * MORSE_CODE_BASE);
 
-            letterCode.push(whatIsThink[substr])
+            codeLetter.push(DIG_TABLE[substr]);
         }
 
-        return MORSE_TABLE[letterCode.join('')]
+        return MORSE_TABLE[codeLetter.join('')]; 
     }
 }
-const whatIsThink = {
-    10: '.',
-    11: '-',
-}
+
 module.exports = {
-    decode
+    decode,
 }
